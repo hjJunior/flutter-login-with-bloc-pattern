@@ -18,7 +18,7 @@ class Login extends StatelessWidget {
             emailField(bloc),
             passwordField(bloc),
             Container(margin: EdgeInsets.only(top: 25.0)),
-            submitButton()
+            submitButton(bloc)
           ],
         ),
       )
@@ -55,9 +55,14 @@ class Login extends StatelessWidget {
     }
   );
 
-  Widget submitButton() => RaisedButton(
-    onPressed: () {},
-    child: Text('Login', style: TextStyle(color: Colors.white),),
-    color: Colors.blue,
+  Widget submitButton(Bloc bloc) => StreamBuilder<bool>(
+    stream: bloc.submitValid,
+    builder: (context, snap) {
+      return RaisedButton(
+        onPressed: (!snap.hasData) ? null : bloc.submit,
+        child: Text('Login', style: TextStyle(color: Colors.white),),
+        color: Colors.blue,
+      );
+    },
   );
 }
